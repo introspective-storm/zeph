@@ -61,7 +61,7 @@ func NewWizard(height int) Wizard {
 			Selected:    true,
 		},
 		{
-			Name:        "R-Squared (R²)",
+			Name:        "R-Squared",
 			Description: "Measure variance explained by the model's regression targets",
 			Selected:    true,
 		},
@@ -174,7 +174,7 @@ func (w Wizard) Update(msg tea.Msg) (Wizard, tea.Cmd) {
 					Tests:      selectedNames,
 				}
 
-				fileName := fmt.Sprintf("%s.tahoe.yaml", w.projectName)
+				fileName := fmt.Sprintf("%s.zeph.yaml", w.projectName)
 				if err := conf.Save(fileName); err != nil {
 					w.Err = err
 					return w, nil
@@ -250,7 +250,7 @@ func (w Wizard) View() string {
 			}
 		}
 		s.WriteString(fmt.Sprintf("  Enabled Tests: %s\n\n", strings.Join(activeTests, ", ")))
-		s.WriteString(fmt.Sprintf("Create config file (%s.tahoe.yaml)? (y/n)", w.projectName))
+		s.WriteString(fmt.Sprintf("Create config file (%s.zeph.yaml)? (y/n)", w.projectName))
 	}
 
 	return s.String()
