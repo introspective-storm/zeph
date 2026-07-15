@@ -6,7 +6,7 @@ type AppState int
 
 const (
 	StateMenu AppState = iota
-	StateConfigCreator
+	StateWizard
 	StateConfigPicker
 	StateDataPicker
 	StateModelPicker
@@ -20,7 +20,7 @@ func (m rootModel) stateMenu(msg tea.Msg) (rootModel, tea.Cmd) {
 		if selected, ok := m.menu.SelectedItem().(item); ok {
 			switch selected.GetAction() {
 			case "wizard":
-				m.state = StateConfigCreator
+				m.state = StateWizard
 			case "load":
 				m.state = StateConfigPicker
 			}

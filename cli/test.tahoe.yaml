@@ -1,0 +1,10 @@
+name: test
+created_at: 2026-07-14T21:36:51.674136503-06:00
+last_opened: 2026-07-14T21:36:51.674139214-06:00
+data_source: /home/anix/Documents/Code/Project-Bellwether/data/lakehouse.ddb
+model_path: /home/anix/Documents/Code/Project-Bellwether/models/Tahoe-test/foxtail1_2026-01-26.jls
+tests:
+    - R-Squared (R²)
+    - Confusion Matrix
+    - Precision & Recall
+    - Residual Plot Data
