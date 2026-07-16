@@ -20,7 +20,8 @@ your models, as performant as possible.[^1] [^2]
 
 ## How does it work?
 Remember when we said we didn't lie? Yeah, we actually did... sort of.
-Zeph is model/framework agnostic because all it cares about are three things:
+Zeph is model/framework agnostic not because of some deep integeration with every framework,
+but because all it cares about are three things:
 1) your data file (can be specified to be pre-split, or pure test data)
 2) your model file (serialized, model weights, etc)
 3) a project specific `.zeph.yaml` or `.zeph.yml` file[^3]
