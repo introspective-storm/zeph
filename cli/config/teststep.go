@@ -92,7 +92,8 @@ func selectTest(msg tea.Msg, w Wizard) (Wizard, tea.Cmd) {
 		case "x", "tab":
 			w.tests[w.activeTestIdx].Selected = !w.tests[w.activeTestIdx].Selected
 		case "y", "enter":
-			w.step = StepConfirm
+			w.step = StepSaveLocation
+			return w, w.dirPicker.Init()
 		}
 	}
 	return w, nil
@@ -100,7 +101,7 @@ func selectTest(msg tea.Msg, w Wizard) (Wizard, tea.Cmd) {
 
 func renderTest(w Wizard) string {
 	var s strings.Builder
-	s.WriteString("4/4\n")
+	s.WriteString("4/5\n")
 	s.WriteString(fmt.Sprintf("Project Name: %s\n", w.projectName))
 	s.WriteString("Select Diagnostic Diagnostics & Tests\n")
 	s.WriteString("Choose what evaluations Zeph will run against your models:\n\n")

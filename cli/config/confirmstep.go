@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -30,7 +31,8 @@ func confirmProject(msg tea.Msg, w Wizard) (Wizard, tea.Cmd) {
 			}
 
 			fileName := fmt.Sprintf("%s.zeph.yaml", w.projectName)
-			if err := conf.Save(fileName); err != nil {
+			absoluteFilePath := filepath.Join(w.saveDir, fileName)
+			if err := conf.Save(absoluteFilePath); err != nil {
 				w.Err = err
 				return w, nil
 			}
@@ -49,6 +51,7 @@ func renderComfirm(w Wizard) string {
 	s.WriteString(fmt.Sprintf("  Project Name: %s\n", w.projectName))
 	s.WriteString(fmt.Sprintf("  Data Source:  %s\n", w.dbPath))
 	s.WriteString(fmt.Sprintf("  Model File:   %s\n", w.modelPath))
+	s.WriteString(fmt.Sprintf("  Save Folder:   %s\n", w.saveDir))
 
 	var activeTests []string
 	for _, t := range w.tests {

@@ -16,6 +16,7 @@ const (
 	StepDatabasePath
 	StepModelPath
 	StepTests
+	StepSaveLocation
 	StepConfirm
 )
 
@@ -24,6 +25,7 @@ type Wizard struct {
 	projectName string
 	dbPath      string
 	modelPath   string
+	saveDir     string
 
 	tests         []TestOption
 	activeTestIdx int
@@ -31,6 +33,7 @@ type Wizard struct {
 	nameInput   textinput.Model
 	dbPicker    picker.Model
 	modelPicker picker.Model
+	dirPicker   picker.Model
 
 	Done bool
 	Err  error
@@ -43,6 +46,7 @@ func NewWizard(height int) Wizard {
 		nameInput:   newProjectInput(),
 		dbPicker:    picker.DataPicker(height),
 		modelPicker: picker.ModelPicker(height),
+		dirPicker:   picker.DirectoryPicker(height),
 		tests:       GetAvailableTests(),
 	}
 }
@@ -57,6 +61,8 @@ func (w Wizard) Update(msg tea.Msg) (Wizard, tea.Cmd) {
 		return selectModel(msg, w)
 	case StepTests:
 		return selectTest(msg, w)
+	case StepSaveLocation:
+		return selectSaveLocation(msg, w)
 	case StepConfirm:
 		return confirmProject(msg, w)
 	}
@@ -75,6 +81,8 @@ func (w Wizard) View() string {
 		s.WriteString(renderModel(w))
 	case StepTests:
 		s.WriteString(renderTest(w))
+	case StepSaveLocation:
+		s.WriteString(renderSaveLocation(w))
 	case StepConfirm:
 		s.WriteString(renderComfirm(w))
 	}

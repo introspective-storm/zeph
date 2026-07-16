@@ -21,7 +21,7 @@ func selectData(msg tea.Msg, w Wizard) (Wizard, tea.Cmd) {
 
 func renderData(w Wizard) string {
 	var s strings.Builder
-	s.WriteString("2/4\n")
+	s.WriteString("2/5\n")
 	s.WriteString(fmt.Sprintf("Project Name: %s\n\n", w.projectName))
 	s.WriteString("Select Data Source File\n")
 	s.WriteString(w.dbPicker.View())

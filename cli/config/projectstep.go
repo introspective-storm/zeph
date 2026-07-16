@@ -38,7 +38,7 @@ func nameProject(msg tea.Msg, w Wizard) (Wizard, tea.Cmd) {
 
 func renderProject(w Wizard) string {
 	var s strings.Builder
-	s.WriteString("1/4\n")
+	s.WriteString("1/5\n")
 	s.WriteString("Enter Project Name\n\n")
 	s.WriteString(w.nameInput.View())
 	return s.String()

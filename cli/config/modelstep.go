@@ -20,7 +20,7 @@ func selectModel(msg tea.Msg, w Wizard) (Wizard, tea.Cmd) {
 
 func renderModel(w Wizard) string {
 	var s strings.Builder
-	s.WriteString("3/4\n")
+	s.WriteString("3/5\n")
 	s.WriteString(fmt.Sprintf("Project Name: %s\n", w.projectName))
 	s.WriteString(fmt.Sprintf("Data Source:  %s\n\n", w.dbPath))
 	s.WriteString(" Select Model File\n")
