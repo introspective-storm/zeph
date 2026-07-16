@@ -14,7 +14,7 @@ Zeph handles it so you don't have to.
 
 On top of that, the tagline above isn't a lie; bring whatever model/framework fills
 your heart with joy (or forced to use at work), and we will validate
-your models, as performant as possible.[^1][^2]
+your models, as performant as possible.[^1] [^2]
 [^1]: To the best of our ability. Sorry if we have code that is 3ms slower than it needs to be.
 [^2]: We mean Zeph. Unfortunately, we didn't invent sub-millisecond model training. If you do, feel free to send a PR.
 
