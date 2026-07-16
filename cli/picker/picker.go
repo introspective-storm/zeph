@@ -35,6 +35,10 @@ func (m Model) View() string {
 	return m.picker.View()
 }
 
+func (m Model) Init() tea.Cmd {
+	return m.picker.Init()
+}
+
 func (m *Model) CheckSelection(msg tea.Msg) (bool, string) {
 	return m.picker.DidSelectFile(msg)
 }

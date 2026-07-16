@@ -80,3 +80,7 @@ func (w Wizard) View() string {
 	}
 	return s.String()
 }
+
+func (w Wizard) Init() tea.Cmd {
+	return w.nameInput.Focus()
+}

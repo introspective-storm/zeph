@@ -72,13 +72,16 @@ func (m rootModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				if selectedItem.GetAction() == "wizard" {
 					m.wizard = config.NewWizard(15)
 					m.state = StateWizard
+					return m, m.wizard.Init()
 				}
 				if selectedItem.GetAction() == "load" {
 					m.configPicker = picker.NewConfigLoader(15)
 					m.state = StateConfigPicker
+					return m, m.configPicker.Init()
 				}
 			}
 		}
+		return m, cmd
 
 	case StateWizard:
 		m.wizard, cmd = m.wizard.Update(msg)
@@ -88,6 +91,7 @@ func (m rootModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			// Back to the menu, or you can route straight into loading the newly created project!
 			m.state = StateMenu
 		}
+		return m, cmd
 	case StateConfigPicker:
 		m.configPicker, cmd = m.configPicker.Update(msg)
 

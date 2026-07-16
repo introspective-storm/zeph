@@ -14,6 +14,7 @@ func selectData(msg tea.Msg, w Wizard) (Wizard, tea.Cmd) {
 	if selected, path := w.dbPicker.CheckSelection(msg); selected {
 		w.dbPath = path
 		w.step = StepModelPath
+		return w, w.modelPicker.Init()
 	}
 	return w, cmd
 }

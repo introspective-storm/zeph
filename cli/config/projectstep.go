@@ -31,6 +31,7 @@ func nameProject(msg tea.Msg, w Wizard) (Wizard, tea.Cmd) {
 		}
 		w.projectName = name
 		w.step = StepDatabasePath
+		return w, w.dbPicker.Init()
 	}
 	return w, cmd
 }

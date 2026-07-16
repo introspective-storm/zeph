@@ -37,3 +37,7 @@ func (c ConfigLoader) Update(msg tea.Msg) (ConfigLoader, tea.Cmd) {
 func (c ConfigLoader) View() string {
 	return c.picker.View()
 }
+
+func (c ConfigLoader) Init() tea.Cmd {
+	return c.picker.Init()
+}
