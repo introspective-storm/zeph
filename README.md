@@ -24,6 +24,7 @@ Zeph is model/framework agnostic because all it cares about are three things:
 1) your data file (can be specified to be pre-split, or pure test data)
 2) your model file (can be script/code, serialized, model weights, etc)
 3) a project specific `.zeph.yaml` or `.zeph.yml` file
+
 Don't worry, it's just a normal `.yaml`, and you can create it yourself. That extra `.zeph` there is just so Zeph can
 tell its config apart from the others on your machine. More on the `yaml` later.
 
