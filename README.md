@@ -1,5 +1,5 @@
 # Zeph
-#### **A fast, model/framework agnostic tool to automate away the boring parts of model testing**
+### **A fast, model/framework agnostic tool to automate away the boring parts of model testing**
 **v0.0.1-alpha**
 
 ## Why Zeph?
