@@ -6,7 +6,7 @@
 If you ever get tired of rewriting:
 - training/test splits (being daring with a 85/15 split today, aren't we?)
 - validation boilerplate
-- chunking/streaming logic for training or testing
+- chunking/streaming logic for training and/or testing
 - logic to handle `NaN` and `null` values
 - the same statistical tests for the 834th time
 
@@ -22,9 +22,9 @@ your models, as performant as possible.[^1] [^2]
 Remember when we said we didn't lie? Yeah, we actually did... sort of.
 Zeph is model/framework agnostic because all it cares about are three things:
 1) your data file (can be specified to be pre-split, or pure test data)
-2) your model file (can be script/code, serialized, model weights, etc)
+2) your model file (serialized, model weights, etc)
 3) a project specific `.zeph.yaml` or `.zeph.yml` file[^3]
-[^3]: It's just a normal `yaml` file and you can even create it yourself, treating it as such. That extra `.zeph` exists so Zeph can tell it apart from other `yaml` files in your system. More details can be found in the section titled "Configurations"
+[^3]: It's just a normal `yaml` file and you can even create it yourself, treating it as such. That extra `.zeph` exists so Zeph can tell it apart from other `yaml` files in your system. More details can be found in the section titled "Config".
 
 You give Zeph your data file, your model file, and tell it which tests to run. It then takes care of the rest,
 and gives you a dashboard with the results, right in the terminal.
