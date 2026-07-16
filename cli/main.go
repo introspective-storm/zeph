@@ -6,16 +6,14 @@ import (
 	"fmt"
 	"os"
 
-	tea "charm.land/bubbletea/v2" // Modern v2 import[cite: 7]
+	tea "charm.land/bubbletea/v2"
 )
-
-// 1. Define your AppState enum
 
 type rootModel struct {
 	state        AppState
 	menu         listModel
 	wizard       config.Wizard
-	configPicker picker.Model
+	configPicker picker.ConfigLoader
 	dataPicker   picker.Model
 	activeConfig *config.ProjectConfig
 	filepicker   picker.Model
@@ -30,7 +28,7 @@ func initialModel() rootModel {
 		state:        StateMenu,
 		menu:         mainMenu(),
 		wizard:       config.NewWizard(pickerHeight),
-		configPicker: picker.ConfigPicker(pickerHeight),
+		configPicker: picker.NewConfigLoader(pickerHeight),
 		dataPicker:   picker.DataPicker(pickerHeight),
 		activeConfig: &config.ProjectConfig{},
 	}
@@ -50,29 +48,34 @@ func (m rootModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		// If we are in the main menu, 'q' quits
 		if m.state == StateMenu && msg.String() == "q" {
-			return m, tea.Quit //[cite: 7]
+			return m, tea.Quit
 		}
 		if m.state == StateWizard && msg.String() == "q" {
 			m.state = StateMenu
 			return m, nil
 		}
+		if m.state == StateConfigPicker && msg.String() == "q" {
+			m.state = StateMenu
+			return m, nil
+		}
 
 	case tea.WindowSizeMsg:
-		m.menu = m.menu.SetSize(msg.Width, msg.Height) //[cite: 7]
+		m.menu = m.menu.SetSize(msg.Width, msg.Height)
 	}
 
-	// 2. Route input to the active screen state
 	switch m.state {
 	case StateMenu:
-		m.menu, cmd = m.menu.Update(msg) //[cite: 7]
+		m.menu, cmd = m.menu.Update(msg)
 
-		// Check if the user hit Enter on a menu item
 		if key, ok := msg.(tea.KeyPressMsg); ok && key.String() == "enter" {
-			if selectedItem, ok := m.menu.SelectedItem().(item); ok { //[cite: 8]
-				if selectedItem.GetAction() == "wizard" { //[cite: 8]
-					// Start a clean wizard and switch states!
+			if selectedItem, ok := m.menu.SelectedItem().(item); ok {
+				if selectedItem.GetAction() == "wizard" {
 					m.wizard = config.NewWizard(15)
 					m.state = StateWizard
+				}
+				if selectedItem.GetAction() == "load" {
+					m.configPicker = picker.NewConfigLoader(15)
+					m.state = StateConfigPicker
 				}
 			}
 		}
@@ -85,6 +88,14 @@ func (m rootModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			// Back to the menu, or you can route straight into loading the newly created project!
 			m.state = StateMenu
 		}
+	case StateConfigPicker:
+		m.configPicker, cmd = m.configPicker.Update(msg)
+
+		if m.configPicker.Done {
+			m.selected = m.configPicker.Path
+			m.state = StateMenu
+		}
+		return m, cmd
 	}
 
 	return m, cmd
@@ -96,20 +107,22 @@ func (m rootModel) View() tea.View {
 	// 3. Render the correct screen based on active state
 	switch m.state {
 	case StateMenu:
-		content = m.menu.View() //[cite: 7]
+		content = m.menu.View()
 	case StateWizard:
 		content = m.wizard.View()
+	case StateConfigPicker:
+		content = m.configPicker.View()
 	}
 
-	v := tea.NewView(content) //[cite: 7]
-	v.AltScreen = true        //[cite: 7]
-	return v                  //[cite: 7]
+	v := tea.NewView(content)
+	v.AltScreen = true
+	return v
 }
 
 func main() {
-	p := tea.NewProgram(initialModel()) //[cite: 7]
-	if _, err := p.Run(); err != nil {  //[cite: 7]
-		fmt.Printf("Error starting Tahoe: %v\n", err) //[cite: 7]
-		os.Exit(1)                                    //[cite: 7]
+	p := tea.NewProgram(initialModel())
+	if _, err := p.Run(); err != nil {
+		fmt.Printf("Error starting Tahoe: %v\n", err)
+		os.Exit(1)
 	}
 }
