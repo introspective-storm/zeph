@@ -6,10 +6,12 @@ type AppState int
 
 const (
 	StateMenu AppState = iota
+	StateContinue
 	StateWizard
 	StateConfigPicker
 	StateDataPicker
 	StateModelPicker
+	StateClarifyMenu
 )
 
 func (m rootModel) stateMenu(msg tea.Msg) (rootModel, tea.Cmd) {

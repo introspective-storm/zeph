@@ -8,9 +8,10 @@ import tea "charm.land/bubbletea/v2"
 // on top of the basic raw utlity.
 
 type ConfigLoader struct {
-	picker Model
-	Done   bool
-	Path   string
+	picker   Model
+	Done     bool
+	Path     string
+	IsLocked bool
 }
 
 func ConfigPicker(height int) Model {
@@ -23,9 +24,20 @@ func NewConfigLoader(height int) ConfigLoader {
 	}
 }
 
+func NewConfigLoaderLocked(height int) ConfigLoader {
+	return ConfigLoader{
+		picker:   ConfigPicker(height),
+		IsLocked: true,
+	}
+}
+
 func (c ConfigLoader) Update(msg tea.Msg) (ConfigLoader, tea.Cmd) {
 	var cmd tea.Cmd
-	c.picker, cmd = c.picker.Update(msg)
+	if c.IsLocked {
+		c.picker, cmd = c.picker.UpdateLocked(msg)
+	} else {
+		c.picker, cmd = c.picker.Update(msg)
+	}
 
 	if selected, path := c.picker.CheckSelection(msg); selected {
 		c.Path = path
@@ -35,6 +47,9 @@ func (c ConfigLoader) Update(msg tea.Msg) (ConfigLoader, tea.Cmd) {
 }
 
 func (c ConfigLoader) View() string {
+	if c.IsLocked {
+		return c.picker.ViewLocked()
+	}
 	return c.picker.View()
 }
 

@@ -35,6 +35,8 @@ type Wizard struct {
 	modelPicker picker.Model
 	dirPicker   picker.Model
 
+	Conf *ProjectConfig
+
 	Done bool
 	Err  error
 }

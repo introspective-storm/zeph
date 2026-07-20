@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"charm.land/bubbles/v2/list"
 	tea "charm.land/bubbletea/v2"
 )
@@ -23,14 +25,14 @@ type listModel struct {
 func mainMenu() listModel {
 	items := []list.Item{
 		item{
+			title:  "Load Existing",
+			desc:   "Choose a config to load a previous project",
+			action: "load",
+		},
+		item{
 			title:  "New Project",
 			desc:   "Create a project with the interactive wizard",
 			action: "wizard",
-		},
-		item{
-			title:  "Load Existing",
-			desc:   "Chose a config to load a previous project.",
-			action: "load",
 		},
 	}
 	l := list.New(items, list.NewDefaultDelegate(), 0, 0)
@@ -38,6 +40,18 @@ func mainMenu() listModel {
 	l.SetShowStatusBar(false)
 	l.SetFilteringEnabled(false)
 	return listModel{list: l}
+}
+
+func (l listModel) WithProject(projectName string) listModel {
+	existingItems := l.list.Items()
+	projectItem := item{
+		title:  fmt.Sprintf("Project: %s", projectName),
+		desc:   "Continue your last project",
+		action: "cont",
+	}
+	newItems := append([]list.Item{projectItem}, existingItems...)
+	l.list.SetItems(newItems)
+	return l
 }
 
 func (l listModel) SelectedItem() list.Item {

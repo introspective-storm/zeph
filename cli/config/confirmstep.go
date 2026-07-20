@@ -21,7 +21,7 @@ func confirmProject(msg tea.Msg, w Wizard) (Wizard, tea.Cmd) {
 				}
 			}
 
-			conf := &ProjectConfig{
+			newConf := &ProjectConfig{
 				Name:       w.projectName,
 				CreatedAt:  time.Now(),
 				LastOpened: time.Now(),
@@ -32,11 +32,12 @@ func confirmProject(msg tea.Msg, w Wizard) (Wizard, tea.Cmd) {
 
 			fileName := fmt.Sprintf("%s.zeph.yaml", w.projectName)
 			absoluteFilePath := filepath.Join(w.saveDir, fileName)
-			if err := conf.Save(absoluteFilePath); err != nil {
+
+			if err := newConf.Save(absoluteFilePath); err != nil {
 				w.Err = err
 				return w, nil
 			}
-
+			w.Conf = newConf
 			w.Done = true
 		case "n":
 			return NewWizard(15), nil
